@@ -76,9 +76,13 @@ function simulate(attackerId, defenderId, shieldsA, shieldsB){
   return battle.getBattleRatings()[0];
 }
 
-// Load ranking data and extract top 25 species
+
+// Load ranking data and extract top species
 const rankings = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/rankings/all/overall/rankings-1500.json')));
-const top25 = rankings.slice(0,25).map(p => p.speciesId);
+const metaArg = process.argv.find(a => a.startsWith('--meta='));
+const metaCount = metaArg ? parseInt(metaArg.split('=')[1]) : 25;
+const meta = rankings.slice(0, metaCount).map(p => p.speciesId);
+
 
 const shieldScenarios = [ [0,0], [1,1], [2,2] ];
 
@@ -94,7 +98,9 @@ function* combinations(arr, k, start=0, prefix=[]){
 
 function scoreTeam(team){
   let score = 0;
-  for(const opponent of top25){
+
+  for(const opponent of meta){
+
     if(team.includes(opponent)) continue;
     for(const member of team){
       for(const shields of shieldScenarios){
@@ -111,21 +117,23 @@ function scoreTeam(team){
 const limitArg = process.argv.find(a => a.startsWith('--limit='));
 const limit = limitArg ? parseInt(limitArg.split('=')[1]) : Infinity;
 
-let bestTeam = null;
-let bestScore = -1;
+
+const topTeams = [];
 let count = 0;
 
-for(const combo of combinations(top25, 3)){
+for(const combo of combinations(meta, 3)){
   const s = scoreTeam(combo);
-  if(s > bestScore){
-    bestScore = s;
-    bestTeam = combo;
-  }
+  topTeams.push({ team: combo, score: s });
+  topTeams.sort((a, b) => b.score - a.score);
+  if(topTeams.length > 5) topTeams.pop();
+
   count++;
   if(count >= limit) break;
 }
 
 console.log('Evaluated', count, 'team combinations');
-if(bestTeam){
-  console.log('Best team:', bestTeam.join(', '), 'score', bestScore);
-}
+
+topTeams.forEach((entry, i) => {
+  console.log(`#${i+1}: ${entry.team.join(', ')} score ${entry.score}`);
+});
+

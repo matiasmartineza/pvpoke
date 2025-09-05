@@ -8,17 +8,21 @@ This started as a passion project that went from “I wonder what this would loo
 
 See the [Installation](https://github.com/pvpoke/pvpoke/wiki/Installation) section of the PvPoke Wiki.
 
+
 ## Top 25 Team Combinations (Great League)
 
 The `src/scripts/top25triplets.js` script exhaustively evaluates every team of three from the top 25 Great League meta. Each trio is tested against the meta across the 0-0, 1-1, and 2-2 shield scenarios to find the highest-scoring combination.
 
+
 Run the script locally with:
 
 ```bash
+
 npm run triplets:top25
 ```
 
 Processing all 2300 combinations may take significant time. For a quicker trial run, append `--limit=<number>` to evaluate only the first N combinations.
+
 
 ## Site Structure
 
