@@ -1,0 +1,11 @@
+{
+  "name": "pvpoke",
+  "version": "1.0.0",
+  "description": "Utilities for PvPoke simulations",
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"No test suite provided\" && exit 0",
+    "triplets:top25": "node src/scripts/top25triplets.js"
+  }
+}
+
