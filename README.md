@@ -8,6 +8,18 @@ This started as a passion project that went from “I wonder what this would loo
 
 See the [Installation](https://github.com/pvpoke/pvpoke/wiki/Installation) section of the PvPoke Wiki.
 
+## Top Team Combinations (Great League)
+
+The `src/scripts/top25triplets.js` script exhaustively evaluates every team of three from the top portion of the Great League meta (25 by default). Each trio is tested against the meta across the 0-0, 1-1, and 2-2 shield scenarios to find the highest-scoring combinations.
+
+Run the script locally with:
+
+```bash
+npm run triplets:top25 -- --meta=<number> --limit=<number>
+```
+
+Omit the flags for a full run. `--meta` adjusts how many Pokémon from the meta are considered (defaults to 25). `--limit` evaluates only the first N combinations for quicker testing. The script prints the top five scoring teams.
+
 ## Site Structure
 
 It was about 10 minutes into development when I realized this project would be great in Angular, but that was unfortunately 5 minutes past the point I was willing to backtrack. So allow me to show you the result.
