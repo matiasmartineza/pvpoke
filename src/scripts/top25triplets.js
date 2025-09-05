@@ -83,6 +83,9 @@ const metaArg = process.argv.find(a => a.startsWith('--meta='));
 const metaCount = metaArg ? parseInt(metaArg.split('=')[1]) : 25;
 const meta = rankings.slice(0, metaCount).map(p => p.speciesId);
 
+const teamSizeArg = process.argv.find(a => a.startsWith('--team-size='));
+const teamSize = teamSizeArg ? parseInt(teamSizeArg.split('=')[1]) : 3;
+
 
 const shieldScenarios = [ [0,0], [1,1], [2,2] ];
 
@@ -121,7 +124,7 @@ const limit = limitArg ? parseInt(limitArg.split('=')[1]) : Infinity;
 const topTeams = [];
 let count = 0;
 
-for(const combo of combinations(meta, 3)){
+for(const combo of combinations(meta, teamSize)){
   const s = scoreTeam(combo);
   topTeams.push({ team: combo, score: s });
   topTeams.sort((a, b) => b.score - a.score);
@@ -131,7 +134,7 @@ for(const combo of combinations(meta, 3)){
   if(count >= limit) break;
 }
 
-console.log('Evaluated', count, 'team combinations');
+console.log('Evaluated', count, `team combinations of size ${teamSize}`);
 
 topTeams.forEach((entry, i) => {
   console.log(`#${i+1}: ${entry.team.join(', ')} score ${entry.score}`);
